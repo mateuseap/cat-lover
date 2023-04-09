@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from datetime import datetime
 
 def api():
-    auth = tweepy.OAuthHandler(os.getenv('API_KEY'), os.getenv('API_SECRET'))
+    auth = tweepy.OAuthHandler(os.getenv('API_KEY'), os.getenv('API_KEY_SECRET'))
     auth.set_access_token(os.getenv('ACCESS_TOKEN'), os.getenv('ACCESS_TOKEN_SECRET'))
 
     return tweepy.API(auth)
