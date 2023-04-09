@@ -32,9 +32,9 @@ def retweet(api: tweepy.API, tweet_id: int, message: str = None, tweet_base_url:
 
     print('Retweeted Successfully!')
 
-def tweet(api: tweepy.API, message: str, file_path = None):
+def tweet(api: tweepy.API, message: str, file_path: str = None):
     if file_path is not None:
-        api.update_with_media(status = message, filename = file_path)
+        api.update_status_with_media(status = message, filename = file_path)
     else:
         api.update_status(status = message)
 
