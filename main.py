@@ -1,13 +1,44 @@
 import os
 import tweepy
 from dotenv import load_dotenv
-from datetime import datetime
+import datetime
+import requests
 
 def api():
     auth = tweepy.OAuthHandler(os.getenv('API_KEY'), os.getenv('API_KEY_SECRET'))
     auth.set_access_token(os.getenv('ACCESS_TOKEN'), os.getenv('ACCESS_TOKEN_SECRET'))
 
     return tweepy.API(auth)
+
+def generate_posts_datetime():
+    start_date = datetime.datetime.today().replace(hour=0, minute=0)
+    end_date = start_date + datetime.timedelta(days=1)
+
+    interval = datetime.timedelta(hours=1)
+
+    date_array = []
+    current_date = start_date
+    while current_date < end_date:
+        date_array.append(current_date.strftime("%Y-%m-%d %H:%M"))
+        current_date += interval
+
+    return date_array
+
+def get_cat_image(tag: str = None):
+    if tag is not None:
+        url = "https://cataas.com/cat"
+    else:
+        url = f'https://cataas.com/cat/{tag}'
+
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        image = response.content
+
+        with open("cat.png", "wb") as f:
+            f.write(image)
+    else:
+        print("Error: could not retrieve image.")
 
 def upload_files(api: tweepy.API, files_paths: list):
     files_ids = []
@@ -45,9 +76,11 @@ if __name__ == '__main__':
     
     api = api()
 
-    retweet(
-        api,
-        tweet_id='1644892115149651968',
-        message=f'Hello calvo @Jongaranhao! {datetime.now()}', 
-        tweet_base_url='https://twitter.com/mateuseliaas/status/', 
-    )
+    count = 19
+    date_array = generate_posts_datetime()
+
+    while True:
+        if date_array[count] == datetime.datetime.now().strftime("%Y-%m-%d %H:%M"):
+            get_cat_image(tag = 'cute')
+            tweet(api, message = 'Cute cat! #cats #cuteCats #catLover', file_path = 'cat.png')
+            count += 1
