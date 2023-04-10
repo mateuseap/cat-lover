@@ -3,6 +3,8 @@ import tweepy
 from dotenv import load_dotenv
 import datetime
 import requests
+from keep_alive import keep_alive
+import time
 
 def api():
     auth = tweepy.OAuthHandler(os.getenv('API_KEY'), os.getenv('API_KEY_SECRET'))
@@ -76,11 +78,12 @@ if __name__ == '__main__':
     
     api = api()
 
-    count = 19
-    date_array = generate_posts_datetime()
+    sleep_duration = 2 * 60 * 60
+
+    keep_alive()
 
     while True:
-        if date_array[count] == datetime.datetime.now().strftime("%Y-%m-%d %H:%M"):
-            get_cat_image(tag = 'cute')
-            tweet(api, message = 'Cute cat! #cats #cuteCats #catLover', file_path = 'cat.png')
-            count += 1
+        get_cat_image(tag = 'cute')
+        tweet(api, message = 'Cute cat! #cats #cuteCats #catLover', file_path = 'cat.png')
+
+        time.sleep(sleep_duration)
