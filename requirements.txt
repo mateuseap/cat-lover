@@ -1,2 +1,4 @@
 python-dotenv
 tweepy
+Flask
+requests
