@@ -84,6 +84,6 @@ if __name__ == '__main__':
 
     while True:
         get_cat_image(tag = 'cute')
-        tweet(api, message = 'Cute cat! #cats #cuteCats #catLover', file_path = 'cat.png')
+        tweet(api, message = 'Cute cat!', file_path = 'cat.png')
 
         time.sleep(sleep_duration)
