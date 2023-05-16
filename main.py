@@ -21,7 +21,9 @@ if __name__ == '__main__':
     keep_alive()
 
     while True:
+        tag = get_random_tag()
+        
         get_cat_image(tag = 'cute')
-        tweet(api, message = 'Cute cat!', file_path = 'cat.png')
+        tweet(api, message = f'{tag} cat!', file_path = 'cat.png')
 
         time.sleep(sleep_duration)
